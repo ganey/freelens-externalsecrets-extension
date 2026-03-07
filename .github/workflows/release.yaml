@@ -12,7 +12,6 @@ permissions:
 jobs:
   release:
     name: release
-
     runs-on: ubuntu-latest
 
     env:
@@ -37,9 +36,6 @@ jobs:
       - name: Build packages
         run: npm run build
 
-      - name: Pack packages
-        run: npm pack
-
       - name: Publish npm packages
         run: |
           case "${GITHUB_REF_NAME}" in
@@ -47,6 +43,9 @@ jobs:
             *) dist_tag=latest;;
           esac
           npm publish --tag ${dist_tag} --access public --provenance
+
+      - name: Pack packages for GitHub Release
+        run: npm pack
 
       - name: Create release
         uses: softprops/action-gh-release@v2

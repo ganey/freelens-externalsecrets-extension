@@ -2,8 +2,13 @@
     "name": "freelens-externalsecrets-extension",
     "version": "0.2.8",
     "publisher": "ganey",
-    "description": "Freelens extension for External Secrets Operator",
-    "main": "out/main/index.js",
+      "description": "Freelens extension for External Secrets Operator",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ganey/freelens-externalsecrets-extension.git"
+      },
+      "main": "out/main/index.js",
+    
     "renderer": "out/renderer/index.js",
     "files": [
         "out/**/*"
