@@ -14,7 +14,6 @@ jobs:
     name: release
 
     runs-on: ubuntu-latest
-    environment: main
 
     env:
       VITE_PRESERVE_MODULES: "false"
