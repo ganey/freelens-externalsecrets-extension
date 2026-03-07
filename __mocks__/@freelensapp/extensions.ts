@@ -31,6 +31,7 @@ export class KubeObjectStore<T = KubeObject> {
 
 export const K8sApi = {
   KubeObject,
+  LensExtensionKubeObject: KubeObject,
   KubeApi,
   KubeObjectStore,
   apiManager: {

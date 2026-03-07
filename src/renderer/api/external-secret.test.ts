@@ -79,7 +79,8 @@ describe("ExternalSecret", () => {
             "external-secrets.io/force-sync": expect.any(String),
           },
         },
-      })
+      }),
+      "merge"
     );
   });
 });
