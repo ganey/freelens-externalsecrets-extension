@@ -47,8 +47,6 @@ jobs:
             *) dist_tag=latest;;
           esac
           npm publish --tag ${dist_tag} --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create release
         uses: softprops/action-gh-release@v2
