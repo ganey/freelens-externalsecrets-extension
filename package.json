@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/ganey/freelens-externalsecrets-extension.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "out/main/index.js",
   "renderer": "out/renderer/index.js",
   "files": [
