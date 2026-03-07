@@ -14,6 +14,7 @@ jobs:
     name: release
 
     runs-on: ubuntu-latest
+    environment: main
 
     env:
       VITE_PRESERVE_MODULES: "false"
@@ -29,7 +30,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
@@ -46,10 +47,9 @@ jobs:
             *-*) dist_tag=next;;
             *) dist_tag=latest;;
           esac
-          npm publish --tag ${dist_tag} --access public
+          npm publish --tag ${dist_tag} --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: "true"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
