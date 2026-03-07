@@ -14,7 +14,7 @@ You can install this extension directly within Freelens:
 
 1. Open Freelens.
 2. Go to Extensions (`Ctrl+Shift+E` or `Cmd+Shift+E`).
-3. Search for `freelens-externalsecrets-extension` and click install.
+3. Enter `freelens-externalsecrets-extension` and click install.
 
 Or by using the direct URL:
 `freelens://app/extensions/install/freelens-externalsecrets-extension`
@@ -30,7 +30,7 @@ Or by using the direct URL:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/micha/freelens-externalsecrets-extension.git
+   git clone https://github.com/ganey/freelens-externalsecrets-extension.git
    cd freelens-externalsecrets-extension
    ```
 
