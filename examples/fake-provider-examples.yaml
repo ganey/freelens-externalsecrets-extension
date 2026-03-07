@@ -1,0 +1,91 @@
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: fake-cluster-store
+spec:
+  provider:
+    fake:
+      data:
+        - key: "/fake/secret/api_key"
+          value: "super-secret-api-key-12345"
+          version: "v1"
+        - key: "/fake/secret/database_url"
+          value: "postgres://user:pass@localhost:5432/db"
+          version: "v1"
+        - key: "/fake/secret/json_config"
+          value: '{"username": "admin", "password": "password123"}'
+          version: "v1"
+
+---
+apiVersion: external-secrets.io/v1
+kind: SecretStore
+metadata:
+  name: fake-namespace-store
+  namespace: default
+spec:
+  provider:
+    fake:
+      data:
+        - key: "local_app_secret"
+          value: "local-secret-value-abc"
+          version: "v1"
+
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: example-cluster-secret
+  namespace: default
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: fake-cluster-store
+    kind: ClusterSecretStore
+  target:
+    name: resulting-cluster-secret # Name of the generated k8s Secret
+  data:
+    - secretKey: api-key # Key in the generated k8s Secret
+      remoteRef:
+        key: /fake/secret/api_key
+        version: v1
+    - secretKey: db-url
+      remoteRef:
+        key: /fake/secret/database_url
+        version: v1
+
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: example-local-secret
+  namespace: default
+spec:
+  refreshInterval: 15m
+  secretStoreRef:
+    name: fake-namespace-store
+    kind: SecretStore
+  target:
+    name: resulting-local-secret
+  data:
+    - secretKey: app-secret
+      remoteRef:
+        key: local_app_secret
+        version: v1
+
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: example-json-secret
+  namespace: default
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: fake-cluster-store
+    kind: ClusterSecretStore
+  target:
+    name: resulting-json-secret
+  dataFrom:
+    - extract:
+        key: /fake/secret/json_config
+        version: v1

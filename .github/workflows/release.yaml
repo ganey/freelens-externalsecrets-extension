@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: release
+
+    runs-on: ubuntu-latest
+
+    env:
+      VITE_PRESERVE_MODULES: "false"
+
+    steps:
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+
+      - name: Check if package version matches
+        run: test "${GITHUB_REF_NAME}" = "v$(jq -r .version package.json)"
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Pack packages
+        run: npm pack
+
+      - name: Publish npm packages
+        run: |
+          case "${GITHUB_REF_NAME}" in
+            *-*) dist_tag=next;;
+            *) dist_tag=latest;;
+          esac
+          npm publish --tag ${dist_tag} --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          fail_on_unmatched_files: true
+          files: |-
+            *.tgz
