@@ -21,8 +21,8 @@ jobs:
       - name: Checkout plugin
         uses: actions/checkout@v4
 
-      - name: Check if package version matches
-        run: test "${GITHUB_REF_NAME}" = "v$(jq -r .version package.json)"
+      - name: Set package version to match tag
+        run: npm version ${GITHUB_REF_NAME#v} --no-git-tag-version --allow-same-version
 
       - name: Setup node
         uses: actions/setup-node@v4
