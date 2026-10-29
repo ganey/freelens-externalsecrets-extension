@@ -26,7 +26,7 @@ export function ExternalSecretSecretDetails(props: Renderer.Component.KubeObject
       </Renderer.Component.DrawerItem>
       {externalSecret && (
         <Renderer.Component.DrawerItem name="External Secret">
-          <a onClick={() => Renderer.Navigation.navigate(Renderer.Component.getDetailsUrl(externalSecret.selfLink))}>
+          <a onClick={() => Renderer.Navigation.navigate(Renderer.Navigation.getDetailsUrl(externalSecret.selfLink))}>
             {externalSecret.getName()}
           </a>
         </Renderer.Component.DrawerItem>

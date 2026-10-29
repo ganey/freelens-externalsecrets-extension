@@ -3,24 +3,36 @@ import { SecretStore, ClusterSecretStore, secretStoresApi, clusterSecretStoresAp
 import { ClusterExternalSecret, PushSecret, clusterExternalSecretsApi, pushSecretsApi, ClusterExternalSecretApi, PushSecretApi } from "./eso-resources";
 
 export class SecretStoresStore extends Renderer.K8sApi.KubeObjectStore<SecretStore, SecretStoreApi> {
+  constructor() {
+    super(secretStoresApi, {});
+  }
   api = secretStoresApi;
 }
 export const secretStoresStore = new SecretStoresStore();
 Renderer.K8sApi.apiManager.registerStore(secretStoresStore);
 
 export class ClusterSecretStoresStore extends Renderer.K8sApi.KubeObjectStore<ClusterSecretStore, ClusterSecretStoreApi> {
+  constructor() {
+    super(clusterSecretStoresApi, {});
+  }
   api = clusterSecretStoresApi;
 }
 export const clusterSecretStoresStore = new ClusterSecretStoresStore();
 Renderer.K8sApi.apiManager.registerStore(clusterSecretStoresStore);
 
 export class ClusterExternalSecretsStore extends Renderer.K8sApi.KubeObjectStore<ClusterExternalSecret, ClusterExternalSecretApi> {
+  constructor() {
+    super(clusterExternalSecretsApi, {});
+  }
   api = clusterExternalSecretsApi;
 }
 export const clusterExternalSecretsStore = new ClusterExternalSecretsStore();
 Renderer.K8sApi.apiManager.registerStore(clusterExternalSecretsStore);
 
 export class PushSecretsStore extends Renderer.K8sApi.KubeObjectStore<PushSecret, PushSecretApi> {
+  constructor() {
+    super(pushSecretsApi, {});
+  }
   api = pushSecretsApi;
 }
 export const pushSecretsStore = new PushSecretsStore();
