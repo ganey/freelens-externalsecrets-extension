@@ -1,6 +1,6 @@
 {
   "name": "freelens-externalsecrets-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "ganey",
   "description": "Freelens extension for External Secrets Operator",
   "repository": {
