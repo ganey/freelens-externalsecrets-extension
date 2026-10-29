@@ -1,5 +1,6 @@
 import { Renderer } from "@freelensapp/extensions";
 import { SecretStore as ISecretStore, ClusterSecretStore as IClusterSecretStore } from "../common/eso-types";
+import { lazy } from "./utils";
 
 export class SecretStore extends Renderer.K8sApi.LensExtensionKubeObject<Renderer.K8sApi.KubeObjectMetadata, ISecretStore["status"], ISecretStore["spec"]> implements ISecretStore {
   static readonly kind = "SecretStore";
@@ -7,7 +8,7 @@ export class SecretStore extends Renderer.K8sApi.LensExtensionKubeObject<Rendere
   static readonly apiBase = "/apis/external-secrets.io/v1/secretstores";
 
   static readonly crd = {
-    apiVersions: ["external-secrets.io/v1"],
+    apiVersions: ["external-secrets.io/v1", "external-secrets.io/v1beta1"],
     plural: "secretstores",
     singular: "secretstore",
     shortNames: ["ss"],
@@ -32,7 +33,7 @@ export class ClusterSecretStore extends Renderer.K8sApi.LensExtensionKubeObject<
   static readonly apiBase = "/apis/external-secrets.io/v1/clustersecretstores";
 
   static readonly crd = {
-    apiVersions: ["external-secrets.io/v1"],
+    apiVersions: ["external-secrets.io/v1", "external-secrets.io/v1beta1"],
     plural: "clustersecretstores",
     singular: "clustersecretstore",
     shortNames: ["css"],
@@ -52,11 +53,15 @@ export class ClusterSecretStore extends Renderer.K8sApi.LensExtensionKubeObject<
 }
 
 export class SecretStoreApi extends Renderer.K8sApi.KubeApi<SecretStore> {}
-export const secretStoresApi = new SecretStoreApi({
+export const secretStoresApi: SecretStoreApi = lazy(() => new SecretStoreApi({
   objectConstructor: SecretStore,
-});
+  checkPreferredVersion: true,
+  fallbackApiBases: ["/apis/external-secrets.io/v1beta1/secretstores"],
+}));
 
 export class ClusterSecretStoreApi extends Renderer.K8sApi.KubeApi<ClusterSecretStore> {}
-export const clusterSecretStoresApi = new ClusterSecretStoreApi({
+export const clusterSecretStoresApi: ClusterSecretStoreApi = lazy(() => new ClusterSecretStoreApi({
   objectConstructor: ClusterSecretStore,
-});
+  checkPreferredVersion: true,
+  fallbackApiBases: ["/apis/external-secrets.io/v1beta1/clustersecretstores"],
+}));

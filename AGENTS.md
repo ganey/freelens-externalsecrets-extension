@@ -8,7 +8,7 @@ This project aims to build a Freelens extension for managing and visualizing [Ex
 - **Status:** Project structure and build pipeline fully established and aligned with Freelens best practices.
 - **Tasks:**
   - [x] Create project skeleton.
-  - [x] Implement robust build and development scripts (`electron-vite`, `.github/workflows`).
+  - [x] Implement robust build and development scripts (`vite`, `.github/workflows`).
   - [ ] Configure linting and formatting (ESLint, Biome/Prettier).
 
 ### ☸️ Kubernetes & ESO Specialist
