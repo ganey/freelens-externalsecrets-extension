@@ -1,3 +1,5 @@
+import { ExternalSecret } from "./api/external-secret";
+import { ClusterExternalSecret } from "./api/eso-resources";
 import { Renderer } from "@freelensapp/extensions";
 import { ExternalSecretsPage } from "./components/external-secrets-page";
 import { SecretStoresPage } from "./components/secret-stores-page";
@@ -96,30 +98,18 @@ export default class ExternalSecretsRendererExtension extends Renderer.LensExten
     },
   ];
 
-  kubeObjectDetailItems = [
-    {
-      kind: "Secret",
-      apiVersions: ["v1"],
-      components: {
-        Details: (props: any) => <ExternalSecretSecretDetails {...props} />,
-      },
-    },
+  kubeObjectDetailItems: Renderer.LensExtension["kubeObjectDetailItems"] = [
+    Renderer.K8sApi.detailsFor(Renderer.K8sApi.Secret, {
+      Details: (props: any) => <ExternalSecretSecretDetails {...props} />,
+    }),
   ];
 
-  kubeObjectMenuItems = [
-    {
-      kind: "ExternalSecret",
-      apiVersions: ["external-secrets.io/v1"],
-      components: {
-        MenuItem: (props: any) => <ExternalSecretMenu {...props} />,
-      },
-    },
-    {
-      kind: "ClusterExternalSecret",
-      apiVersions: ["external-secrets.io/v1"],
-      components: {
-        MenuItem: (props: any) => <ExternalSecretMenu {...props} />,
-      },
-    },
+  kubeObjectMenuItems: Renderer.LensExtension["kubeObjectMenuItems"] = [
+    Renderer.K8sApi.menuItemFor(ExternalSecret, {
+      MenuItem: (props: any) => <ExternalSecretMenu {...props} />,
+    }),
+    Renderer.K8sApi.menuItemFor(ClusterExternalSecret, {
+      MenuItem: (props: any) => <ExternalSecretMenu {...props} />,
+    }),
   ];
 }
